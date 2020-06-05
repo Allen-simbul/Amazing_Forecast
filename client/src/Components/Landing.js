@@ -5,7 +5,7 @@ import SearchBar from './SearchBar';
 
 class Landing extends React.Component {
   handleInput = (searchterm) => {
-    console.log(searchterm);
+    // console.log(searchterm);
     this.props.getForecast(searchterm.location);
   };
   render() {

@@ -4,11 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 class SearchBar extends React.Component {
   renderError({ error, touched }) {
     if (touched && error) {
-      return (
-        <div>
-          <div>{error}</div>
-        </div>
-      );
+      return <span>{error}</span>;
     }
   }
 
@@ -16,13 +12,12 @@ class SearchBar extends React.Component {
     return (
       <div>
         <input {...input} placeholder="Enter a Location" />
-        {this.renderError(meta)}
+        <span>{this.renderError(meta)}</span>
       </div>
     );
   };
 
   onSubmit = (formValues) => {
-    // console.log('formValues', formValues);
     this.props.onSubmit(formValues);
   };
 
@@ -37,11 +32,10 @@ class SearchBar extends React.Component {
 }
 
 const validate = (formValues) => {
-  // TODO: Fix Redux-Form Validation
   const errors = {};
 
   if (!formValues.location) {
-    errors.title = 'You must enter a location!';
+    errors.location = 'You must enter a location!';
   }
 
   return errors;
@@ -49,5 +43,5 @@ const validate = (formValues) => {
 
 export default reduxForm({
   form: 'searchbarForm',
-  validate: validate,
+  validate,
 })(SearchBar);
