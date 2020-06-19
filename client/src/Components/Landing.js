@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getForecast } from '../Actions';
+import { getLocations, searchTerm } from '../Actions';
 import SearchBar from './SearchBar';
 
 class Landing extends React.Component {
   handleInput = (searchterm) => {
     // console.log(searchterm);
-    this.props.getForecast(searchterm.location);
+    this.props.searchTerm(searchterm.location);
+    this.props.getLocations(searchterm.location);
   };
   render() {
     return (
@@ -19,5 +20,6 @@ class Landing extends React.Component {
 }
 
 export default connect(null, {
-  getForecast,
+  getLocations,
+  searchTerm,
 })(Landing);

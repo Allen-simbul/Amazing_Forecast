@@ -3,6 +3,7 @@ import { Router, Route, Switch } from 'react-router-dom';
 import history from '../history';
 import Forecast from './Forecast';
 import Landing from './Landing';
+import SearchResults from './SearchResults';
 
 class App extends React.Component {
   render() {
@@ -11,7 +12,12 @@ class App extends React.Component {
         App
         <Switch>
           <Route path="/" exact component={Landing} />
-          <Route path="/forecast/:city" exact component={Forecast} />
+          <Route
+            path="/searchresults/:location"
+            exact
+            component={SearchResults}
+          />
+          <Route path="/forecast/:location" exact component={Forecast} />
         </Switch>
       </Router>
     );

@@ -1,6 +1,11 @@
 import axios from 'axios';
 import history from '../history';
-import { FETCH_FORECAST, CITY_NOT_FOUND } from './types';
+import {
+  FETCH_FORECAST,
+  CITY_NOT_FOUND,
+  FETCH_LOCATIONS,
+  SEARCH_TERM,
+} from './types';
 
 export const getForecast = (city) => {
   return async (dispatch) => {
@@ -18,5 +23,24 @@ export const getForecast = (city) => {
     } catch (e) {
       console.log(e);
     }
+  };
+};
+
+export const getLocations = (location) => {
+  return async (dispatch) => {
+    const matched_locations = await axios.get(`/api/search_result/${location}`);
+    dispatch({ type: FETCH_LOCATIONS, payload: matched_locations.data });
+    history.push(`/searchresults/${location}`);
+  };
+};
+
+export const searchTerm = (searchTerm) => {
+  return async (dispatch) => {
+    const term = await axios.post('/api/search_result/');
+    const current_searchTerm = await axios.patch(
+      `/api/search_result/update/${searchTerm}`
+    );
+    console.log(current_searchTerm.data);
+    dispatch({ type: SEARCH_TERM, payload: current_searchTerm.data });
   };
 };

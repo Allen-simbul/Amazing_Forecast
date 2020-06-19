@@ -4,6 +4,7 @@ const openweather = require('../services/openweather');
 require('../db/mongoose');
 const Location = require('../models/Location');
 const Code = require('../models/Code');
+const Term = require('../models/SearchTerm');
 
 const getWeatherData = async (city) => {
   const weatherData = {};
