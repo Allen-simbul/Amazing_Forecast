@@ -8,9 +8,6 @@ const searchTermSchema = new mongoose.Schema({
   searchTerm: {
     type: String,
   },
-  location: {
-    type: String,
-  },
   location_id: {
     type: Number,
   },

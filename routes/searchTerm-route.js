@@ -19,19 +19,27 @@ router.post('/api/search_result/', async (req, res) => {
 });
 
 router.patch('/api/search_result/update/:searchTerm', async (req, res) => {
+  const searchTerm =
+    req.params.searchTerm.charAt(0).toUpperCase() +
+    req.params.searchTerm.slice(1);
   const updated_searchterm = await Term.findOneAndUpdate(
     {},
-    { currentSearchTerm: true, searchTerm: req.params.searchTerm }
+    {
+      currentSearchTerm: true,
+      searchTerm: searchTerm,
+    },
+    { new: true }
   );
   res.send(updated_searchterm);
 });
 
 router.get('/api/search_result/:location', async (req, res) => {
-  const matched_locations = await Location.find({ name: 'Dublin' });
+  const location = req.params.location;
+  const matched_locations = await Location.find({ name: location });
   res.send(matched_locations);
 });
 
-router.get('/api/search_result/current_search_term', async (req, res) => {
+router.get('/api/search_result/current/search_term/', async (req, res) => {
   const current_search_term = await Term.findOne(
     { currentSearchTerm: true },
     (err, term) => {

@@ -4,10 +4,11 @@ import {
   FETCH_FORECAST,
   CITY_NOT_FOUND,
   FETCH_LOCATIONS,
+  FETCH_FORECASTS,
   SEARCH_TERM,
 } from './types';
 
-export const getForecast = (city) => {
+export const getChosenForecast = (city) => {
   return async (dispatch) => {
     try {
       console.log(city);
@@ -30,7 +31,16 @@ export const getLocations = (location) => {
   return async (dispatch) => {
     const matched_locations = await axios.get(`/api/search_result/${location}`);
     dispatch({ type: FETCH_LOCATIONS, payload: matched_locations.data });
-    history.push(`/searchresults/${location}`);
+    history.push(`/searchresults?location=${location}`);
+  };
+};
+
+export const getForecasts = (locations) => {
+  return async (dispatch) => {
+    const matched_forecasts = await axios.get(
+      `/api/forecast/matched_locations/${JSON.stringify(locations)}`
+    );
+    dispatch({ type: FETCH_FORECASTS, payload: matched_forecasts });
   };
 };
 
@@ -40,7 +50,15 @@ export const searchTerm = (searchTerm) => {
     const current_searchTerm = await axios.patch(
       `/api/search_result/update/${searchTerm}`
     );
-    console.log(current_searchTerm.data);
+    dispatch({ type: SEARCH_TERM, payload: current_searchTerm.data });
+  };
+};
+
+export const getCurrentSearchTerm = () => {
+  return async (dispatch) => {
+    const current_searchTerm = await axios.get(
+      '/api/search_result/current/search_term/'
+    );
     dispatch({ type: SEARCH_TERM, payload: current_searchTerm.data });
   };
 };
