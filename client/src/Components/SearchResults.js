@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
+import ForecastPreview from './ForecastPreview';
 import {
   getLocations,
   getForecasts,
@@ -27,39 +27,28 @@ class SearchResults extends React.Component {
     }
   };
 
-  getForecastLocations = (searchTerm) => {
-    this.props.getLocations(searchTerm);
+  getForecastLocations = async (searchTerm) => {
+    await this.props.getLocations(searchTerm);
+    await this.props.getForecasts(this.props.locations);
   };
 
-  renderMatchedLocations = () => {
-    return this.props.locations.map((location) => {
-      return (
-        <div key={location.id}>
-          <div>
-            <span>{location.name} </span>
-            <span>{location.country}</span>
-          </div>
-          <br></br>
-          <div></div>
-        </div>
-      );
-    });
-  };
-
-  render() {
+  render = () => {
     return (
       <div>
-        {/* <div>{console.log(this.props.match.params.location)}</div> */}
-        {this.renderMatchedLocations()}
+        <ForecastPreview
+          locations={this.props.locations}
+          forecasts={this.props.forecasts}
+        />
         SearchResults
       </div>
     );
-  }
+  };
 }
 
 const mapStateToProps = (state) => {
   return {
     locations: state.matchedLocations,
+    forecasts: state.locationsForecast,
     current_search_term: state.searchterm,
   };
 };

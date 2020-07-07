@@ -5,7 +5,7 @@ dotenv.config();
 const showWeather = async (location_id) => {
   try {
     const response = await axios.get(
-      `http://api.openweathermap.org/data/2.5/weather?id=${location_id}&appid=${process.env.OPEN_WEATHER_KEY}`
+      `http://api.openweathermap.org/data/2.5/weather?id=${location_id}&units=metric&appid=${process.env.OPEN_WEATHER_KEY}`
     );
     return response.data;
   } catch (e) {

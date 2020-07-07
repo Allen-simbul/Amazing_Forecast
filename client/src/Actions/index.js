@@ -29,6 +29,7 @@ export const getChosenForecast = (city) => {
 
 export const getLocations = (location) => {
   return async (dispatch) => {
+    console.log('hello');
     const matched_locations = await axios.get(`/api/search_result/${location}`);
     dispatch({ type: FETCH_LOCATIONS, payload: matched_locations.data });
     history.push(`/searchresults?location=${location}`);
@@ -37,8 +38,16 @@ export const getLocations = (location) => {
 
 export const getForecasts = (locations) => {
   return async (dispatch) => {
-    const matched_forecasts = await axios.get(
-      `/api/forecast/matched_locations/${JSON.stringify(locations)}`
+    const locations_id = locations.map((location) => {
+      return location.id;
+    });
+    const matched_forecasts = await Promise.all(
+      locations_id.map(async (location) => {
+        const response = await axios.get(
+          `/api/forecast/${JSON.stringify(location)}`
+        );
+        return response.data;
+      })
     );
     dispatch({ type: FETCH_FORECASTS, payload: matched_forecasts });
   };
