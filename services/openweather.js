@@ -9,7 +9,6 @@ const showWeather = async (location_id) => {
     );
     return response.data;
   } catch (e) {
-    console.log('catch error', e.response.data);
     return e.response.data;
   }
 };

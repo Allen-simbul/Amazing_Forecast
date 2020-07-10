@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import queryString from 'query-string';
 import ForecastPreview from './ForecastPreview';
 import {
+  saveChosenLocation,
   getLocations,
   getForecasts,
   getCurrentSearchTerm,
@@ -32,12 +33,17 @@ class SearchResults extends React.Component {
     await this.props.getForecasts(this.props.locations);
   };
 
+  saveChosenForecastLocation = (locationID) => {
+    this.props.saveChosenLocation(locationID);
+  };
+
   render = () => {
     return (
       <div>
         <ForecastPreview
           locations={this.props.locations}
           forecasts={this.props.forecasts}
+          getChosenForecast={this.saveChosenForecastLocation}
         />
         SearchResults
       </div>
@@ -54,6 +60,7 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, {
+  saveChosenLocation,
   getLocations,
   getForecasts,
   getCurrentSearchTerm,

@@ -10,6 +10,7 @@ const getWeatherData = async (location_id) => {
   const weatherData = {};
   const response = await openweather(location_id);
   weatherData.cityName = response.name;
+  weatherData.country = response.sys.country;
   weatherData.cod = response.cod;
   weatherData.coord = response.coord;
   weatherData.clouds = response.clouds;

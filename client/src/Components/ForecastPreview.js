@@ -13,18 +13,23 @@ class ForecastPreview extends React.Component {
         );
         return (
           <div key={location.id}>
-            <div>
-              <span>{location.name} </span>
-              <span>{location.country}</span>
-            </div>
-            <div>
-              <span>{forecast.main.temp} C</span>
-              <span> | {forecast.weather.description}</span>
-              <span> | {forecast.weather.main}</span>
-              <span> | {DateTime.format(DATE_FORMAT)}</span>
-              <span> | {DateTime.format(TIME_FORMAT)}</span>
-            </div>
-            <br></br>
+            <Link
+              to={`/forecast?location=${location.id}`}
+              onClick={() => this.props.getChosenForecast(location.id)}
+            >
+              <div>
+                <span>{location.name} </span>
+                <span>{location.country}</span>
+              </div>
+              <div>
+                <span>{forecast.main.temp} C</span>
+                <span> | {forecast.weather.description}</span>
+                <span> | {forecast.weather.main}</span>
+                <span> | {DateTime.format(DATE_FORMAT)}</span>
+                <span> | {DateTime.format(TIME_FORMAT)}</span>
+              </div>
+              <br></br>
+            </Link>
           </div>
         );
       });

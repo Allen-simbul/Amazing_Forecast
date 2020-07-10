@@ -23,13 +23,25 @@ router.post('/api/search_result/', async (req, res) => {
   res.send(current_term);
 });
 
-router.patch('/api/search_result/update/:searchTerm', async (req, res) => {
+router.patch('/api/search_result/update_term/:searchTerm', async (req, res) => {
   const searchTerm = editSearchTerm(req.params.searchTerm);
   const updated_searchterm = await Term.findOneAndUpdate(
     {},
     {
       currentSearchTerm: true,
       searchTerm: searchTerm,
+    },
+    { new: true }
+  );
+  res.send(updated_searchterm);
+});
+
+router.patch('/api/search_result/update_id/:id', async (req, res) => {
+  const locationID = editSearchTerm(req.params.id);
+  const updated_searchterm = await Term.findOneAndUpdate(
+    {},
+    {
+      location_id: locationID,
     },
     { new: true }
   );
