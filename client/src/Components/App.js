@@ -13,7 +13,7 @@ class App extends React.Component {
         <Switch>
           <Route path="/" exact component={Landing} />
           <Route path="/searchresults" exact component={SearchResults} />
-          <Route path="/forecast/:location" exact component={Forecast} />
+          <Route path="/forecast" exact component={Forecast} />
         </Switch>
       </Router>
     );

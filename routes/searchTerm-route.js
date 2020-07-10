@@ -6,6 +6,11 @@ const Location = require('../models/Location');
 const Term = require('../models/SearchTerm');
 const { json } = require('express');
 
+const editSearchTerm = (searchTerm) => {
+  const edittedTerm = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1);
+  return edittedTerm;
+};
+
 router.post('/api/search_result/', async (req, res) => {
   const countDocs = await Term.countDocuments({}, (err, count) => {
     return count;
@@ -18,10 +23,8 @@ router.post('/api/search_result/', async (req, res) => {
   res.send(current_term);
 });
 
-router.patch('/api/search_result/update/:searchTerm', async (req, res) => {
-  const searchTerm =
-    req.params.searchTerm.charAt(0).toUpperCase() +
-    req.params.searchTerm.slice(1);
+router.patch('/api/search_result/update_term/:searchTerm', async (req, res) => {
+  const searchTerm = editSearchTerm(req.params.searchTerm);
   const updated_searchterm = await Term.findOneAndUpdate(
     {},
     {
@@ -33,8 +36,20 @@ router.patch('/api/search_result/update/:searchTerm', async (req, res) => {
   res.send(updated_searchterm);
 });
 
+router.patch('/api/search_result/update_id/:id', async (req, res) => {
+  const locationID = editSearchTerm(req.params.id);
+  const updated_searchterm = await Term.findOneAndUpdate(
+    {},
+    {
+      location_id: locationID,
+    },
+    { new: true }
+  );
+  res.send(updated_searchterm);
+});
+
 router.get('/api/search_result/:location', async (req, res) => {
-  const location = req.params.location;
+  const location = editSearchTerm(req.params.location);
   const matched_locations = await Location.find({ name: location });
   res.send(matched_locations);
 });
